@@ -1,0 +1,60 @@
+/* font */
+@font-face {
+  font-family: 'Pretendard Eb';
+  font-weight: 899;
+  font-style: normal;
+  font-display: swap;
+  src: url('../assets/fonts/PretendardStd-ExtraBold.woff2');
+}
+@font-face {
+  font-family: 'Pretendard Bold';
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+  src: url('../assets/fonts/PretendardStd-Bold.woff2');
+}
+@font-face {
+  font-family: 'Pretendard Sb';
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+  src: url('../assets/fonts/PretendardStd-SemiBold.woff2');
+}
+@font-face {
+  font-family: 'Pretendard Md';
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+  src: url('../assets/fonts/PretendardStd-Medium.woff2');
+}
+@font-face {
+  font-family: 'Pretendard Rgl';
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  src: url('../assets/fonts/PretendardStd-Regular.woff2');
+}
+@font-face {
+  font-family: 'Pretendard Lt';
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+  src: url('../assets/fonts/PretendardStd-Light.woff2');
+}
+$fontDefault: 'Pretendard', sans-serif;
+$fontWeightBold: 700;
+$fontWeightSemiBold: 600;
+$fontWeightMedium: 500;
+$fontWeightRegular: 400;
+$fontWeightLight: 300;
+
+/* color */
+$colorGreen: #00543C;
+$colorOrange: #C65A16;
+$colorGray01: #888;
+$colorGray02: #666;
+$colorGray03: #444;
+$colorGray04: #222;
+$colorGray05: #333;
+$colorBlack: #000;
+$colorWhite: #fff;

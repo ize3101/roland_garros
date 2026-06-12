@@ -1,102 +1,70 @@
-import { useState } from 'react'
-import './App.css'
+import { useState, useEffect } from 'react'
+import { motion } from 'motion/react'
+import './App.scss'
 
-function App() {
-  const [count, setCount] = useState(0)
+const TABS = [
+  { id: 'tab1', label: '롤랑가로스' },
+  { id: 'tab2', label: 'VIP티켓' },
+  { id: 'tab3', label: '신세계혜택' },
+  { id: 'tab4', label: '구매방법' },
+]
 
+export default function App() {
+  const [activeTab, setActiveTab] = useState('tab1')
+  
+  // tab active 위치 감지
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveTab(entry.target.id)
+          }
+        })
+      },
+      { rootMargin: '-40% 0px -55% 0px' }
+    )
+    
+    TABS.forEach(({ id }) => {
+      const el = document.getElementById(id)
+      if (el) observer.observe(el)
+    })
+    
+    return () => observer.disconnect()
+  }, [])
+  
+  // scroll 이동
+  const handleTabClick = (id) => {
+    setActiveTab(id)
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
+  }
+  
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
-
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
+    <div className="tab-wrap">
+      <nav className="tab-list">
+        {TABS.map(({ id, label }) => (
+          <button
+            key={id}
+            className={`tab-item ${activeTab === id ? 'is-active' : ''}`}
+            onClick={() => handleTabClick(id)}
+          >
+            {label}
+            {activeTab === id && (
+              <motion.div
+                className="is-indicator"
+                layoutId="indicator"
+                transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+              />
+            )}
+          </button>
+        ))}
+      </nav>
+      {TABS.map(({ id, label }) => (
+        <section key={id} id={id} className="section">
+          <h2>{label}</h2>
+          <p>내용</p>
+        </section>
+      ))}
+    </div>
   )
 }
-
-export default App

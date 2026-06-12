@@ -1,0 +1,44 @@
+@use './styles/variables' as *;
+@use './styles/reset';
+@use './styles/mixins';
+
+.tab-wrap {
+  .tab-list {
+    display: flex;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+
+    .tab-item {
+      flex: 1;
+
+      .link-tab {
+        .tab-text {
+          font-weight: $fontWeightRegular;
+          font-size: 16px;
+          line-height: 22px;
+          letter-spacing: 0;
+          color: $colorGray02;
+        }
+      }
+
+      &.is-active {
+        position: relative;
+
+        &:before {
+          content: '';
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          width: 100%;
+          height: 6px;
+          background-color: $colorGreen;
+        }
+        .tab-text {
+          font-weight: 800;
+          color: $colorGreen;
+        }
+      }
+    }
+  }
+}
