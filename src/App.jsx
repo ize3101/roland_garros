@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react'
+import {useState, useEffect, useRef} from 'react'
+import ReactPlayer from 'react-player'
 import { motion } from 'motion/react'
 import './App.scss'
 
@@ -11,18 +12,22 @@ const TABS = [
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('tab1')
+  const isScrolling = useRef(false)
+  const scrollTimeOut = useRef(null)
   
   // tab active 위치 감지
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
+        if (isScrolling.current) return // 스크롤 중이면 back
+        
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             setActiveTab(entry.target.id)
           }
         })
       },
-      { rootMargin: '-40% 0px -55% 0px' }
+      { rootMargin: '-40% 0 -55% 0' }
     )
     
     TABS.forEach(({ id }) => {
@@ -32,7 +37,7 @@ export default function App() {
     
     return () => observer.disconnect()
   }, [])
-  
+
   // scroll 이동
   const handleTabClick = (id) => {
     setActiveTab(id)
@@ -40,31 +45,38 @@ export default function App() {
   }
   
   return (
-    <div className="tab-wrap">
-      <nav className="tab-list">
+    <div className="wrap">
+      <div className="intro-wrap">
+        ~ intro ~
+      </div>
+      <div className="tab-wrap">
+        <nav className="tab-list">
+          {TABS.map(({ id, label }) => (
+            <div
+              key={id}
+              className={`tab-item ${activeTab === id ? 'is-active' : ''}`}
+              onClick={() => handleTabClick(id)}
+            >
+              <button className={`link-tab`}>
+                <div className={`tab-text`}>{label}</div>
+              </button>
+              {activeTab === id && (
+                <motion.div
+                  className="is-indicator"
+                  layoutId="indicator"
+                  transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+                />
+              )}
+            </div>
+          ))}
+        </nav>
         {TABS.map(({ id, label }) => (
-          <button
-            key={id}
-            className={`tab-item ${activeTab === id ? 'is-active' : ''}`}
-            onClick={() => handleTabClick(id)}
-          >
-            {label}
-            {activeTab === id && (
-              <motion.div
-                className="is-indicator"
-                layoutId="indicator"
-                transition={{ type: 'spring', stiffness: 400, damping: 30 }}
-              />
-            )}
-          </button>
+          <section key={id} id={id} className="section">
+            <h2>{label}</h2>
+            <p>내용</p>
+          </section>
         ))}
-      </nav>
-      {TABS.map(({ id, label }) => (
-        <section key={id} id={id} className="section">
-          <h2>{label}</h2>
-          <p>내용</p>
-        </section>
-      ))}
+      </div>
     </div>
   )
 }

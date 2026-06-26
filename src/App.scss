@@ -4,6 +4,8 @@
 
 .tab-wrap {
   .tab-list {
+    position: sticky;
+    top: 0;
     display: flex;
     display: -webkit-box;
     display: -ms-flexbox;
@@ -11,8 +13,16 @@
 
     .tab-item {
       flex: 1;
+      background-color: #fff;
 
       .link-tab {
+        display: inline-block;
+        width: 100%;
+        height: 100%;
+        padding: 9px 5px 15px;
+        text-align: center;
+        vertical-align: top;
+
         .tab-text {
           font-weight: $fontWeightRegular;
           font-size: 16px;
@@ -34,11 +44,17 @@
           height: 6px;
           background-color: $colorGreen;
         }
+
         .tab-text {
           font-weight: 800;
           color: $colorGreen;
         }
       }
     }
+  }
+
+  .section {
+    height: 100vh;
+    scroll-margin-top: 46px;
   }
 }
