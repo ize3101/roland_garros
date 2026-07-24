@@ -1,0 +1,56 @@
+@use '../../../styles/variables' as *;
+
+$types: ('', 'square');
+$colors: (
+  'orange' : (#C65A16, #C65A16, #222),
+  'line-white' : (transparent, #FFF, #FFF),
+);
+$sizes: (
+  'sm' : (23px, 5.5px 10px, 11.5px),
+  'md' : (28px, 6px 10px, 13px),
+  'lg' : (30px, 5px 13px, 14px),
+  'xl' : (32px, 4px 24px, 16px),
+);
+
+@each $type in $types {
+  @each $color, $colorVal in $colors {
+    @each $size, $sizeVal in $sizes {
+      $height : nth($sizeVal, 1);
+      $padding : nth($sizeVal, 2);
+      $fontSize : nth($sizeVal, 3);
+
+      .badge-#{$type}-#{$color}-#{$size} {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        height: $height;
+        padding: $padding;
+        border-radius: 99px;
+        background-color: nth($colorVal, 1);
+        border: 1px solid nth($colorVal, 2);
+
+        .text {
+          display: inline-block;
+          font-weight: $fontWeightRegular;
+          font-size: $fontSize;
+          color: nth($colorVal, 3);
+          white-space: nowrap;
+          vertical-align: top;
+        }
+
+        @if $type == 'square' {
+          border-radius: 0;
+        }
+
+        @if $size == 'lg' {
+          border-color: rgba(255, 255, 255, .6);
+        } @else if $size == 'md' {
+          border-width: .5px;
+          border-color: rgba(255, 255, 255, .5);
+        } @else if $size == 'sm' {
+          border-width: .23px;
+        }
+      }
+    }
+  }
+}

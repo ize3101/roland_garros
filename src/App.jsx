@@ -1,7 +1,8 @@
-import {useState, useEffect, useRef} from 'react'
-import ReactPlayer from 'react-player'
+import { useState, useEffect, useRef } from 'react'
+/*import ReactPlayer from 'react-player'*/
 import { motion } from 'motion/react'
 import './App.scss'
+import Badge from './components/common/Badge/Badge'
 
 const TABS = [
   { id: 'tab1', label: '롤랑가로스' },
@@ -13,7 +14,6 @@ const TABS = [
 export default function App() {
   const [activeTab, setActiveTab] = useState('tab1')
   const isScrolling = useRef(false)
-  const scrollTimeOut = useRef(null)
   
   // tab active 위치 감지
   useEffect(() => {
@@ -27,7 +27,7 @@ export default function App() {
           }
         })
       },
-      { rootMargin: '-40% 0 -55% 0' }
+      { rootMargin: '-40% 0px -55% 0px' }
     )
     
     TABS.forEach(({ id }) => {
@@ -40,14 +40,30 @@ export default function App() {
 
   // scroll 이동
   const handleTabClick = (id) => {
+    isScrolling.current = true
     setActiveTab(id)
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
+    
+    let scrollEndTimer
+    const handleScroll = () => {
+      clearTimeout(scrollEndTimer)
+      scrollEndTimer = setTimeout(() => {
+        isScrolling.current = false
+        window.removeEventListener('scroll', handleScroll)
+      }, 100)
+    }
+    
+    window.addEventListener('scroll', handleScroll)
   }
   
   return (
     <div className="wrap">
       <div className="intro-wrap">
-        ~ intro ~
+        <div className="intro-top-area">
+          <div className="logo-box"></div>
+          <div className="video-box"></div>
+        </div>
+        <div className="intro-bottom-area"></div>
       </div>
       <div className="tab-wrap">
         <nav className="tab-list">
